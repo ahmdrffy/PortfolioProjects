@@ -1,6 +1,6 @@
 # 🧹 Messy Employee Dataset — Data Analytics Project
 
-An end-to-end data analytics project using a messy HR/employee dataset. This project covers data cleaning, SQL data modeling, and exploratory data analysis to answer real business questions about workforce performance, compensation, and retention.
+An end-to-end data analytics project using a messy HR/employee dataset. This project covers data cleaning, SQL data modeling, exploratory data analysis, and an interactive Power BI dashboard to answer real business questions about workforce performance, compensation, and retention.
 
 ---
 
@@ -14,6 +14,7 @@ An end-to-end data analytics project using a messy HR/employee dataset. This pro
 | `messy_employee - table_queries.sql` | SQL script to create and normalize tables |
 | `messy_employee - analysis_queries.sql` | SQL queries to answer business questions |
 | `Messy_Employee - ExploratoryDataAnalysis.ipynb` | Python notebook for exploratory data analysis |
+| `Messy_Employee - DataVisualization.pbix` | Power BI dashboard file |
 
 ---
 
@@ -24,6 +25,7 @@ An end-to-end data analytics project using a messy HR/employee dataset. This pro
 - **Python (Matplotlib)** — Data visualization
 - **Python (Seaborn)** — Data visualization
 - **PostgreSQL** — Data modeling and analysis
+- **Power BI** — Interactive dashboard and visualization
 
 ---
 
@@ -44,6 +46,36 @@ Business questions answered using JOINs, CTEs, and aggregate functions across th
 
 ### 4. Exploratory Data Analysis (EDA)
 Performed in Python using Pandas, Matplotlib, and Seaborn. The EDA covers univariate, bivariate, and multivariate analysis across salary, age, performance, department, remote work, and employee status.
+
+### 5. Power BI Dashboard
+An interactive dashboard built on top of the normalized PostgreSQL tables. Includes slicers for remote work filtering and KPI cards for high-level metrics.
+
+---
+
+## 📊 Power BI Dashboard
+
+Connected directly to the normalized PostgreSQL tables via Power BI Desktop. Relationships were set up in Model view with `employees` as the central table.
+
+**Visuals:**
+| Visual | Fields Used |
+|---|---|
+| KPI Card — Total Employees | COUNT(employee_id) |
+| KPI Card — Avg Age | AVERAGE(age) |
+| Bar Chart — Department Salary (Avg) | department_name, AVG(salary) |
+| Bar Chart — Highest Salary | first_name + last_name, AVG(salary) Top 10 |
+| Bar Chart — Region Salary (Avg) | region, AVG(salary) |
+| Bar Chart — Department Performance | department_name, AVG(performance_score) |
+| Donut Chart — Employee Status | status, COUNT(employee_id) |
+| Line Chart — Hiring Trend | join_date (Year), COUNT(employee_id) |
+| Slicer — Remote Work | Remote / On-Site |
+
+**DAX Measures Used:**
+```dax
+Avg Salary = AVERAGE(salaries[salary])
+Total Employees = DISTINCTCOUNT(employees[employee_id])
+Avg Age = AVERAGE(employees[age])
+Remote Label = IF(employees[Remote_Work] = 1, Remote, On-Site)
+```
 
 ---
 
